@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/")
 class IndexController { 
 	
-	private static final String JSP_FILE = "/WEB-INF/JSP/index.jsp";
+	private static final String JSP_FILE = "index";
 	private static final String MESSAGE_NAME = "message";
 	
 	@GetMapping 
