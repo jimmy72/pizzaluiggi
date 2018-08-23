@@ -11,6 +11,6 @@
 <body>
 	<h1>Pizza Luigi</h1>
 	<img src='images/pizza.jpg' alt='pizza' class='fullwidth'>
-	<h2>Goede dag</h2>
+	<h2>${message}</h2>
 </body>
 </html>
