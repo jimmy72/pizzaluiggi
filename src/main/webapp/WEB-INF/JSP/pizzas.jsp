@@ -12,8 +12,8 @@
 <body>
 	<h1>Pizza's</h1>
 	<ul class='zebra'>
-		<c:forEach var='pizza' items='${pizzas}'>
-			<li>${pizza.naam}&nbsp;${pizza.prijs}&euro;</li>
+		<c:forEach var='entry' items='${pizzas}'>
+			<li>${entry.key}:&nbsp;${entry.value.naam}&nbsp; ${entry.value.prijs}&euro;</li>
 		</c:forEach>
 	</ul>
 </body>
