@@ -18,7 +18,10 @@
 	<ul class='zebra'>
 		<c:forEach var='entry' items='${pizzas}'>
 			<li>${entry.key}:&nbsp;${entry.value.naam}&nbsp; ${entry.value.prijs}&euro;
-				<c:if test="${entry.value.pikant }">&nbsp;pikant</c:if>
+				<c:choose>
+					<c:when test='${entry.value.pikant}'>pikant</c:when>
+					<c:otherwise>niet pikant</c:otherwise>
+				</c:choose>
 			</li>
 		</c:forEach>
 	</ul>
