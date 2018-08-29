@@ -10,6 +10,7 @@
 <link rel='stylesheet' href='css/pizzaluiggi.css'>
 </head>
 <body>
+	<c:import url="/WEB-INF/JSP/menu.jsp"></c:import>
 	<h1>Pizza's
 	<c:forEach begin="1" end="5">
 		&#9733;
@@ -17,11 +18,15 @@
 	</h1>
 	<ul class='zebra'>
 		<c:forEach var='entry' items='${pizzas}'>
-			<li>${entry.key}:&nbsp;${entry.value.naam}&nbsp; ${entry.value.prijs}&euro;
+			<li>${entry.key}:&nbsp;<c:out value="${entry.value.naam}"></c:out>&nbsp;${entry.value.prijs}&euro;
 				<c:choose>
 					<c:when test='${entry.value.pikant}'>pikant</c:when>
 					<c:otherwise>niet pikant</c:otherwise>
 				</c:choose>
+			<c:url value="/pizzas" var="url">
+				<c:param name="id" value="${entry.key}"></c:param>
+			</c:url>
+			&nbsp;<a href="${url}">detail</a>
 			</li>
 		</c:forEach>
 	</ul>

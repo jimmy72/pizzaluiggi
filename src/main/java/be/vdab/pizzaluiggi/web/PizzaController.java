@@ -24,7 +24,8 @@ class PizzaController {
 		pizzas.put(1L, new Pizza(1, "Prosciutto", BigDecimal.valueOf(4), true));
 		pizzas.put(2L, new Pizza(2, "Margherita", BigDecimal.valueOf(5), false));
 		pizzas.put(3L, new Pizza(3, "Calzone", BigDecimal.valueOf(4), false));
-		pizzas.put(4L, new Pizza(4, "Fungi & Olive", BigDecimal.valueOf(5), false));
+		pizzas.put(4L, new Pizza(4, "Quattro Formagi", BigDecimal.valueOf(5), false));
+		pizzas.put(23L, new Pizza(23, "Fungi & Olive", BigDecimal.valueOf(5), false));
 		return new ModelAndView(PIZZAS_VIEW, "pizzas", pizzas);
 	}
 }

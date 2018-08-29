@@ -10,6 +10,7 @@
 <link rel='stylesheet' href='css/pizzaluiggi.css'>
 </head>
 <body>
+	<c:import url="/WEB-INF/JSP/menu.jsp"></c:import>
 	<h1>Pizza Luigi</h1>
 	<img src='images/pizza.jpg' alt='pizza' class='fullwidth'>
 	<h2>${message}</h2>
