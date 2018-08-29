@@ -10,10 +10,16 @@
 <link rel='stylesheet' href='css/pizzaluiggi.css'>
 </head>
 <body>
-	<h1>Pizza's</h1>
+	<h1>Pizza's
+	<c:forEach begin="1" end="5">
+		&#9733;
+	</c:forEach>
+	</h1>
 	<ul class='zebra'>
 		<c:forEach var='entry' items='${pizzas}'>
-			<li>${entry.key}:&nbsp;${entry.value.naam}&nbsp; ${entry.value.prijs}&euro;</li>
+			<li>${entry.key}:&nbsp;${entry.value.naam}&nbsp; ${entry.value.prijs}&euro;
+				<c:if test="${entry.value.pikant }">&nbsp;pikant</c:if>
+			</li>
 		</c:forEach>
 	</ul>
 </body>
