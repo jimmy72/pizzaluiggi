@@ -2,6 +2,7 @@ package be.vdab.pizzaluiggi.web;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +23,7 @@ import be.vdab.pizzaluiggi.valueobjects.Persoon;
 class IndexController { 
 	
 	private static final String JSP_FILE = "index";
-		
+	private final AtomicInteger numberOfViews = new AtomicInteger(0);
 	@GetMapping 
 	ModelAndView index(@CookieValue(name = "laatstBezocht" , required = false) String laatstBezocht, HttpServletResponse response) { 
 		String message;
@@ -39,6 +40,7 @@ class IndexController {
 		if(laatstBezocht != null) {
 			mv.addObject("laatstBezocht", laatstBezocht);
 		}
+		mv.addObject("numberOfViews", numberOfViews.incrementAndGet());
 		return mv;
 	}
 }

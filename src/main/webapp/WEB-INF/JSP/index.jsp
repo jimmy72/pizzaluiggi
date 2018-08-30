@@ -27,5 +27,6 @@
 	<c:if test="${not empty laatstBezocht}">
 		<p>Je bezocht deze website laatste op ${laatstBezocht}</p>
 	</c:if>
+	<p>Deze pagina werd ${numberOfViews} bekeken.</p>
 </body>
 </html>
