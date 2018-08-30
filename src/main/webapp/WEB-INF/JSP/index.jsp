@@ -24,5 +24,8 @@
 		<dd>${zaakvoerder.adres.straat}&nbsp;${zaakvoerder.adres.huisNr}<br>
 		${zaakvoerder.adres.postcode}&nbsp;${zaakvoerder.adres.gemeente}</dd>
 	</dl>
+	<c:if test="${not empty laatstBezocht}">
+		<p>Je bezocht deze website laatste op ${laatstBezocht}</p>
+	</c:if>
 </body>
 </html>
