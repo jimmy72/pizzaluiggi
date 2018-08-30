@@ -17,24 +17,27 @@ import be.vdab.pizzaluiggi.entities.Pizza;
 @Controller
 @RequestMapping("pizzas")
 class PizzaController {
-	private static final String PIZZAS_VIEW = "pizzas";
-	private static final String PIZZA_VIEW = "pizza";
+	private static final String PIZZAS_JSP = "pizzas";
+	private static final String PIZZA_DETAIL_JSP = "pizza";
 	
 	private final Map<Long, Pizza> pizzas = new LinkedHashMap<>();
 	
-	@GetMapping
-	ModelAndView pizzas() {
+	PizzaController(){
 		pizzas.put(1L, new Pizza(1, "Prosciutto", BigDecimal.valueOf(4), true));
 		pizzas.put(2L, new Pizza(2, "Margherita", BigDecimal.valueOf(5), false));
 		pizzas.put(3L, new Pizza(3, "Calzone", BigDecimal.valueOf(4), false));
 		pizzas.put(4L, new Pizza(4, "Quattro Formagi", BigDecimal.valueOf(5), false));
 		pizzas.put(23L, new Pizza(23, "Fungi & Olive", BigDecimal.valueOf(5), false));
-		return new ModelAndView(PIZZAS_VIEW, "pizzas", pizzas);
+	}
+	
+	@GetMapping
+	ModelAndView pizzas() {
+		return new ModelAndView(PIZZAS_JSP, "pizzas", pizzas);
 	}
 	
 	@GetMapping("{id}") 
 	ModelAndView pizza(@PathVariable long id) { 
-		ModelAndView modelAndView = new ModelAndView(PIZZA_VIEW);
+		ModelAndView modelAndView = new ModelAndView(PIZZA_DETAIL_JSP);
 		if (pizzas.containsKey(id)) {
 			modelAndView.addObject(pizzas.get(id)); //value van Map is Pizza object
 			//indien er geen naam voor object wordt meegegeven dan wordt aan jsp de naam van het object
