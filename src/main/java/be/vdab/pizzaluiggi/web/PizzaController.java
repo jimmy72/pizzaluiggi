@@ -1,10 +1,9 @@
 package be.vdab.pizzaluiggi.web;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +18,7 @@ import be.vdab.pizzaluiggi.entities.Pizza;
 class PizzaController {
 	private static final String PIZZAS_JSP = "pizzas";
 	private static final String PIZZA_DETAIL_JSP = "pizza";
+	private static final String PRIJZEN_JSP = "prijzen";
 	
 	private final Map<Long, Pizza> pizzas = new LinkedHashMap<>();
 	
@@ -45,5 +45,31 @@ class PizzaController {
 			//modelAndView.addObject("pizza", pizzas.get(id));
 		}
 		return modelAndView;
+	}
+	
+	@GetMapping("prijzen") 
+		ModelAndView prijzen() {
+		return new ModelAndView(PRIJZEN_JSP, "prijzen", 
+			pizzas.values()
+				.stream()
+				.map(pizza -> pizza.getPrijs())
+				.distinct()
+				.collect(Collectors.toSet()));
+	}
+	
+	@GetMapping(params = "prijs") 
+	ModelAndView pizzasVanPrijs(BigDecimal prijs) {
+	return new ModelAndView(PRIJZEN_JSP, "pizzas",
+		pizzas.values()
+			.stream()
+			.filter(p -> p.getPrijs().equals(prijs))
+			.collect(Collectors.toList())) 
+		.addObject("prijs", prijs)
+		.addObject("prijzen", 
+			pizzas.values()
+				.stream()
+				.map(pizza -> pizza.getPrijs())
+				.distinct()
+				.collect(Collectors.toSet()));	
 	}
 }
