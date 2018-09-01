@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import be.vdab.pizzaluiggi.entities.Pizza;
+import be.vdab.pizzaluiggi.services.EuroService;
 
 @Controller
 @RequestMapping("pizzas")
@@ -19,15 +20,17 @@ class PizzaController {
 	private static final String PIZZAS_JSP = "pizzas";
 	private static final String PIZZA_DETAIL_JSP = "pizza";
 	private static final String PRIJZEN_JSP = "prijzen";
+	private final EuroService euroService;
 	
 	private final Map<Long, Pizza> pizzas = new LinkedHashMap<>();
 	
-	PizzaController(){
+	PizzaController(EuroService euroService){
 		pizzas.put(1L, new Pizza(1, "Prosciutto", BigDecimal.valueOf(4), true));
 		pizzas.put(2L, new Pizza(2, "Margherita", BigDecimal.valueOf(5), false));
 		pizzas.put(3L, new Pizza(3, "Calzone", BigDecimal.valueOf(4), false));
 		pizzas.put(4L, new Pizza(4, "Quattro Formagi", BigDecimal.valueOf(5), false));
 		pizzas.put(23L, new Pizza(23, "Fungi & Olive", BigDecimal.valueOf(5), false));
+		this.euroService = euroService;
 	}
 	
 	@GetMapping
@@ -39,10 +42,12 @@ class PizzaController {
 	ModelAndView pizza(@PathVariable long id) { 
 		ModelAndView modelAndView = new ModelAndView(PIZZA_DETAIL_JSP);
 		if (pizzas.containsKey(id)) {
-			modelAndView.addObject(pizzas.get(id)); //value van Map is Pizza object
+			Pizza pizza = pizzas.get(id);
+			modelAndView.addObject(pizza); //value van Map is Pizza object
+			//modelAndView.addObject("pizza", pizzas.get(id));
 			//indien er geen naam voor object wordt meegegeven dan wordt aan jsp de naam van het object
 			//meegegeven maar dan in kleine letters
-			//modelAndView.addObject("pizza", pizzas.get(id));
+			modelAndView.addObject("inDollar", euroService.naarDollar(pizza.getPrijs()));
 		}
 		return modelAndView;
 	}
