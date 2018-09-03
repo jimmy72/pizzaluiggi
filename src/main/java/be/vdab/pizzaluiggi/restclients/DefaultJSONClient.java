@@ -22,8 +22,7 @@ import be.vdab.pizzaluiggi.exceptions.JSONClientException;
 public class DefaultJSONClient implements JSONClient {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultJSONClient.class);
-	
-	
+		
 	public DefaultJSONClient() {
 		
 	}
@@ -54,8 +53,7 @@ public class DefaultJSONClient implements JSONClient {
 			throw new JSONClientException(fout);
 		}  
 	}
-	
-	
+		
 	private String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();
 	    int cp;
@@ -63,6 +61,6 @@ public class DefaultJSONClient implements JSONClient {
 	      sb.append((char) cp);
 	    }
 	    return sb.toString();
-	  }
+	}
 
 }
