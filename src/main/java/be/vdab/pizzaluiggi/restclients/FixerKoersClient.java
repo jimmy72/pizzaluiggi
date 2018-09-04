@@ -2,7 +2,6 @@ package be.vdab.pizzaluiggi.restclients;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 

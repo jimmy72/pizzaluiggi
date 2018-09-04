@@ -14,10 +14,11 @@ import be.vdab.pizzaluiggi.restclients.KoersClient;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EuroServiceTest {
+	
+	private EuroService euroService;
 	@Mock
 	private KoersClient dummyKoersClient;
-	private DefaultEuroService euroService;
-
+	
 	@Before
 	public void before() {
 		when(dummyKoersClient.getDollarKoers()).thenReturn(BigDecimal.valueOf(1.5));
