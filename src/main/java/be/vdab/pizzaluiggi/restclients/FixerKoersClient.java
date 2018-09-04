@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -20,15 +21,10 @@ class FixerKoersClient implements KoersClient {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FixerKoersClient.class);
 	private final URL url;
 	
-	public FixerKoersClient() {
-		try {
-			url = new URL("http://data.fixer.io/api/latest?access_key=3d0a4fecd7d5a53aa66487323c7dc519&symbols=USD");
-		} catch (MalformedURLException ex) {
-			String fout = "Fixer URL is verkeerd.";
-			LOGGER.error(fout, ex); 
-			throw new KoersClientException(fout);
-		}
+	public FixerKoersClient(@Value("${fixerKoersURL}") URL url) {
+		this.url = url;
 	}	
+	
 	@Override
 	public BigDecimal getDollarKoers() {
 		try (Scanner scanner = new Scanner(url.openStream())) {

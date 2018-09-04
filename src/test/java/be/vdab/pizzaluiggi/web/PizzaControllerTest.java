@@ -62,6 +62,18 @@ public class PizzaControllerTest {
 		verify(dummyJSONService).getAJSONObject("http://data.fixer.io/api/latest?access_key=3d0a4fecd7d5a53aa66487323c7dc519&symbols=USD");
 	}
 	@Test
+	public void pizzaGeeftJSONAttribuutDoor() {
+		ModelAndView modelAndView = controller.pizza(1);
+		assertTrue(modelAndView.getModel().containsKey("jsonattribuut"));
+		verify(dummyJSONService).getAJSONObject("http://data.fixer.io/api/latest?access_key=3d0a4fecd7d5a53aa66487323c7dc519&symbols=USD");
+	}
+	@Test
+	public void pizzaGeeftInDollarAttribuutDoor() {
+		ModelAndView modelAndView = controller.pizza(1);
+		assertTrue(modelAndView.getModel().containsKey("inDollar"));
+		verify(dummyJSONService).getAJSONObject("http://data.fixer.io/api/latest?access_key=3d0a4fecd7d5a53aa66487323c7dc519&symbols=USD");
+	}
+	@Test
 	public void onbestaandePizza() {
 		ModelAndView modelAndView = controller.pizza(-1);
 		assertFalse(modelAndView.getModel().containsKey("pizza"));
