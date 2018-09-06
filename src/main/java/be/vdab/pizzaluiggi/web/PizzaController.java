@@ -14,73 +14,57 @@ import org.springframework.web.servlet.ModelAndView;
 import be.vdab.pizzaluiggi.entities.Pizza;
 import be.vdab.pizzaluiggi.services.EuroService;
 import be.vdab.pizzaluiggi.services.JSONService;
+import be.vdab.pizzaluiggi.services.PizzaService;
 
 @Controller
 @RequestMapping("pizzas")
 class PizzaController {
-	private static final String PIZZAS_JSP = "pizzas";
-	private static final String PIZZA_DETAIL_JSP = "pizza";
-	private static final String PRIJZEN_JSP = "prijzen";
+	private static final String PIZZAS_VIEW = "pizzas";
+	private static final String PIZZA_VIEW = "pizza";
+	private static final String PRIJZEN_VIEW = "prijzen";
 	private final EuroService euroService;
-	private final JSONService jsonService;
+	private final PizzaService pizzaService;
+	//private final JSONService jsonService;
 	
+		
+//	PizzaController(EuroService euroService, JSONService  jsonService){
+//		this.euroService = euroService;
+//		this.jsonService = jsonService;
+//	}
 	
-	private final Map<Long, Pizza> pizzas = new LinkedHashMap<>();
-	
-	PizzaController(EuroService euroService, JSONService jsonService){
-		pizzas.put(1L, new Pizza(1, "Prosciutto", BigDecimal.valueOf(4), true));
-		pizzas.put(2L, new Pizza(2, "Margherita", BigDecimal.valueOf(5), false));
-		pizzas.put(3L, new Pizza(3, "Calzone", BigDecimal.valueOf(4), false));
-		pizzas.put(4L, new Pizza(4, "Quattro Formagi", BigDecimal.valueOf(5), false));
-		pizzas.put(23L, new Pizza(23, "Fungi & Olive", BigDecimal.valueOf(5), false));
+	PizzaController(EuroService euroService, PizzaService  pizzaService){
 		this.euroService = euroService;
-		this.jsonService = jsonService;
+		this.pizzaService = pizzaService;
 	}
 	
 	
 	@GetMapping
 	ModelAndView pizzas() {
-		return new ModelAndView(PIZZAS_JSP, "pizzas", pizzas);
+		return new ModelAndView(PIZZAS_VIEW, "pizzas", pizzaService.findAll());
 	}
 	
 	@GetMapping("{id}") 
 	ModelAndView pizza(@PathVariable long id) { 
-		ModelAndView modelAndView = new ModelAndView(PIZZA_DETAIL_JSP);
-		if (pizzas.containsKey(id)) {
-			Pizza pizza = pizzas.get(id);
-			modelAndView.addObject("pizza", pizza); //value van Map is Pizza object
-			//indien er geen naam voor object wordt meegegeven dan wordt aan jsp de naam van het object
-			//meegegeven maar dan in kleine letters
+		ModelAndView modelAndView = new ModelAndView(PIZZA_VIEW);
+		pizzaService.read(id).ifPresent(pizza -> {
+			modelAndView.addObject("pizza", pizza);
 			modelAndView.addObject("inDollar", euroService.naarDollar(pizza.getPrijs()));
-			modelAndView.addObject("jsonattribuut", jsonService.getAJSONObject(
-					"http://data.fixer.io/api/latest?access_key=3d0a4fecd7d5a53aa66487323c7dc519&symbols=USD"));
-		}
+		});
 		return modelAndView;
+//			modelAndView.addObject("jsonattribuut", jsonService.getAJSONObject(
+//					"http://data.fixer.io/api/latest?access_key=3d0a4fecd7d5a53aa66487323c7dc519&symbols=USD"));
+		
 	}
 	
 	@GetMapping("prijzen") 
 		ModelAndView prijzen() {
-		return new ModelAndView(PRIJZEN_JSP, "prijzen", 
-			pizzas.values()
-				.stream()
-				.map(pizza -> pizza.getPrijs())
-				.distinct()
-				.collect(Collectors.toSet()));
+		return new ModelAndView(PRIJZEN_VIEW, "prijzen", pizzaService.findUniekePrijzen());
 	}
 	
 	@GetMapping(params = "prijs") 
 	ModelAndView pizzasVanPrijs(BigDecimal prijs) {
-	return new ModelAndView(PRIJZEN_JSP, "pizzas",
-		pizzas.values()
-			.stream()
-			.filter(p -> p.getPrijs().equals(prijs))
-			.collect(Collectors.toList())) 
+	return new ModelAndView(PRIJZEN_VIEW, "pizzas", pizzaService.findByPrijs(prijs)) 
 		.addObject("prijs", prijs)
-		.addObject("prijzen", 
-			pizzas.values()
-				.stream()
-				.map(pizza -> pizza.getPrijs())
-				.distinct()
-				.collect(Collectors.toSet()));	
+		.addObject("prijzen", pizzaService.findUniekePrijzen());	
 	}
 }

@@ -26,8 +26,6 @@
 			<dd>${inDollar}</dd>
 			<dt>Pikant</dt>
 			<dd>${pizza.pikant ? 'ja' : 'nee'}</dd>
-			<dt>JSON</dt>
-			<dd>${jsonattribuut}</dd>
 		</dl>
 	</c:if>
 </body>
