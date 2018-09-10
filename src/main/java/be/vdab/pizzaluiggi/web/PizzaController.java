@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ class PizzaController {
 	private static final String PIZZAS_VIEW = "pizzas";
 	private static final String PIZZA_VIEW = "pizza";
 	private static final String PRIJZEN_VIEW = "prijzen";
+	private static final String VAN_TOT_PRIJS_VIEW = "vantotprijs";
 	private final EuroService euroService;
 	private final PizzaService pizzaService;
 	//private final JSONService jsonService;
@@ -67,4 +69,23 @@ class PizzaController {
 		.addObject("prijs", prijs)
 		.addObject("prijzen", pizzaService.findUniekePrijzen());	
 	}
+	
+	@GetMapping("vantotprijs") 
+	ModelAndView findVanTotPrijs() {
+		VanTotPrijsForm form = new VanTotPrijsForm();
+		//form.setVan(BigDecimal.ZERO);
+		//form.setTot(BigDecimal.ZERO);
+		return new ModelAndView(VAN_TOT_PRIJS_VIEW).addObject(form);
+	}
+	
+	@GetMapping(params = {"van", "tot"}) 
+	ModelAndView findVanTotPrijs(VanTotPrijsForm form, BindingResult bindingResult) { 
+		if(bindingResult.hasErrors()) {
+			return new ModelAndView(VAN_TOT_PRIJS_VIEW);
+		}
+		return new ModelAndView(VAN_TOT_PRIJS_VIEW,
+				"pizzas", pizzaService.findByPrijsBetween(form.getVan(), form.getTot()));
+	}
+	
+	
 }
