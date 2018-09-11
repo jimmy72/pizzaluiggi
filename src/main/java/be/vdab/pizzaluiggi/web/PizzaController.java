@@ -2,6 +2,7 @@ package be.vdab.pizzaluiggi.web;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -58,7 +59,7 @@ class PizzaController {
 		
 	}
 	
-	@GetMapping("prijzen") 
+	@GetMapping(path = "/prijzen") 
 		ModelAndView prijzen() {
 		return new ModelAndView(PRIJZEN_VIEW, "prijzen", pizzaService.findUniekePrijzen());
 	}
@@ -70,7 +71,7 @@ class PizzaController {
 		.addObject("prijzen", pizzaService.findUniekePrijzen());	
 	}
 	
-	@GetMapping("vantotprijs") 
+	@GetMapping(path = "/vantotprijs") 
 	ModelAndView findVanTotPrijs() {
 		VanTotPrijsForm form = new VanTotPrijsForm();
 		//form.setVan(BigDecimal.ZERO);
@@ -78,13 +79,19 @@ class PizzaController {
 		return new ModelAndView(VAN_TOT_PRIJS_VIEW).addObject(form);
 	}
 	
-	@GetMapping(params = {"van", "tot"}) 
+	@GetMapping(path = "/vantotprijs", params = {"van", "tot"}) 
 	ModelAndView findVanTotPrijs(VanTotPrijsForm form, BindingResult bindingResult) { 
+		ModelAndView modelAndView = new ModelAndView(VAN_TOT_PRIJS_VIEW);
 		if(bindingResult.hasErrors()) {
-			return new ModelAndView(VAN_TOT_PRIJS_VIEW);
+			return modelAndView; 
 		}
-		return new ModelAndView(VAN_TOT_PRIJS_VIEW,
-				"pizzas", pizzaService.findByPrijsBetween(form.getVan(), form.getTot()));
+		List<Pizza> pizzas = pizzaService.findByPrijsBetween(form.getVan(), form.getTot());
+		if(pizzas.isEmpty()) {
+			bindingResult.reject("geenPizzas");
+		}else {
+			modelAndView.addObject("pizzas", pizzas);
+		}
+		return modelAndView;
 	}
 	
 	

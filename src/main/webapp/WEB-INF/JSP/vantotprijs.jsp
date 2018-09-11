@@ -13,7 +13,7 @@
 <body>
 	<c:import url='/WEB-INF/JSP/menu.jsp' />
 	<h1>Van tot prijs</h1>
-	<c:url value='/pizzas' var='url' />
+	<c:url value='/pizzas/vantotprijs' var='url' />
 	<form:form action='${url}' modelAttribute='vanTotPrijsForm'
 		method='get'>
 		<form:label path='van'>Van:<form:errors path='van'></form:errors></form:label>
@@ -21,6 +21,7 @@
 		<form:label path='tot'>Tot:<form:errors path='tot'></form:errors></form:label>
 		<form:input path='tot' />
 		<input type='submit' value='Zoeken'>
+		<span><form:errors cssClass='fout'/></span>
 	</form:form>
 	<c:if test='${not empty pizzas}'>
 		<ul>
