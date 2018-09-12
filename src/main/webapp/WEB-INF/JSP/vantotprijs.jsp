@@ -17,9 +17,9 @@
 	<form:form action='${url}' modelAttribute='vanTotPrijsForm'
 		method='get'>
 		<form:label path='van'>Van:<form:errors path='van'></form:errors></form:label>
-		<form:input path='van' autofocus='autofocus' />
+		<form:input path='van' autofocus='autofocus' type='number' required='required' min='0' />
 		<form:label path='tot'>Tot:<form:errors path='tot'></form:errors></form:label>
-		<form:input path='tot' />
+		<form:input path='tot' required='required' type='number' min='0'/>
 		<input type='submit' value='Zoeken'>
 		<span><form:errors cssClass='fout'/></span>
 	</form:form>
