@@ -11,6 +11,9 @@
 </head>
 <body>
 	<c:import url="/WEB-INF/JSP/menu.jsp"></c:import>
+	<c:if test='${not empty param.boodschap}'>
+		<div class='boodschap'>${param.boodschap}</div>
+	</c:if>
 	<h1>Pizza's
 	<c:forEach begin="1" end="5">
 		&#9733;

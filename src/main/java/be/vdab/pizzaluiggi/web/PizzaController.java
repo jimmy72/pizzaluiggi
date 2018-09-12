@@ -9,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import be.vdab.pizzaluiggi.entities.Pizza;
 import be.vdab.pizzaluiggi.services.EuroService;
@@ -23,6 +25,8 @@ class PizzaController {
 	private static final String PIZZA_VIEW = "pizza";
 	private static final String PRIJZEN_VIEW = "prijzen";
 	private static final String VAN_TOT_PRIJS_VIEW = "vantotprijs";
+	private static final String TOEVOEGEN_VIEW = "toevoegen";
+	private static final String REDIRECT_URL_NA_TOEVOEGEN="redirect:/pizzas";
 	private final EuroService euroService;
 	private final PizzaService pizzaService;
 	//private final JSONService jsonService;
@@ -90,6 +94,21 @@ class PizzaController {
 			modelAndView.addObject("pizzas", pizzas);
 		}
 		return modelAndView;
+	}
+	
+	@GetMapping(path = "/toevoegen")
+	ModelAndView toevoegen() {
+		return new ModelAndView(TOEVOEGEN_VIEW).addObject(new Pizza());
+	}
+	
+	@PostMapping("/toevoegen")
+	ModelAndView toevoegen(@Valid Pizza pizza, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return new ModelAndView(TOEVOEGEN_VIEW);
+		}
+		pizzaService.create(pizza);
+		redirectAttributes.addAttribute("boodschap", "Pizza toegevoegd");
+		return new ModelAndView(REDIRECT_URL_NA_TOEVOEGEN);
 	}
 	
 	
