@@ -101,7 +101,7 @@ class PizzaController {
 		return new ModelAndView(TOEVOEGEN_VIEW).addObject(new Pizza());
 	}
 	
-	@PostMapping("/toevoegen")
+	@PostMapping(path = "/toevoegen")
 	ModelAndView toevoegen(@Valid Pizza pizza, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
 			return new ModelAndView(TOEVOEGEN_VIEW);
