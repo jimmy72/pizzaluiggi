@@ -28,5 +28,6 @@
 		<p>Je bezocht deze website laatste op ${laatstBezocht}</p>
 	</c:if>
 	<p>Deze pagina werd ${numberOfViews} bekeken.</p>
+	<p>${identificatie.emailAdres}</p>
 </body>
 </html>

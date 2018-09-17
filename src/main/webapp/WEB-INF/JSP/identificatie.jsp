@@ -16,7 +16,7 @@
 	<form:form action='${url}' modelAttribute='identificatie' method='post' id='identificatieForm'>
 		<form:label path="emailAdres">Emailadres:
 		<form:errors path="emailAdres"></form:errors></form:label>
-		<form:input path="emailAdres" autofocus="autofocus" required="required"/>
+		<form:input path="emailAdres" autofocus="autofocus" required="required" type="email"/>
 		<input type="submit" value="OK" id="okKnop">
 	</form:form>
 <script>

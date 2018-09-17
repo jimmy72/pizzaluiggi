@@ -24,6 +24,12 @@ class IndexController {
 	
 	private static final String JSP_FILE = "index";
 	private final AtomicInteger numberOfViews = new AtomicInteger(0);
+	private final Identificatie identificatie;
+	
+	IndexController(Identificatie identificatie){
+		this.identificatie = identificatie;
+	}
+	
 	@GetMapping 
 	ModelAndView index(@CookieValue(name = "laatstBezocht" , required = false) String laatstBezocht, HttpServletResponse response) { 
 		String message;
@@ -41,6 +47,7 @@ class IndexController {
 			mv.addObject("laatstBezocht", laatstBezocht);
 		}
 		mv.addObject("numberOfViews", numberOfViews.incrementAndGet());
+		mv.addObject("identificatie", this.identificatie);
 		return mv;
 	}
 }
