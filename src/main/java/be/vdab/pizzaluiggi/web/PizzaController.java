@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import be.vdab.pizzaluiggi.entities.Pizza;
 import be.vdab.pizzaluiggi.services.EuroService;
 import be.vdab.pizzaluiggi.services.PizzaService;
+import be.vdab.pizzaluiggi.valueobjects.Dollar;
 
 @Controller
 @RequestMapping("pizzas")
@@ -53,7 +54,7 @@ class PizzaController {
 		ModelAndView modelAndView = new ModelAndView(PIZZA_VIEW);
 		pizzaService.read(id).ifPresent(pizza -> {
 			modelAndView.addObject("pizza", pizza);
-			modelAndView.addObject("inDollar", euroService.naarDollar(pizza.getPrijs()));
+			modelAndView.addObject("inDollar", new Dollar(euroService.naarDollar(pizza.getPrijs())));
 		});
 		return modelAndView;
 //			modelAndView.addObject("jsonattribuut", jsonService.getAJSONObject(

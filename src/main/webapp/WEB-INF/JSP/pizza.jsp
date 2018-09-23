@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" session="false"
 	trimDirectiveWhitespaces="true"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix='spring' uri='http://www.springframework.org/tags'%>
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -21,9 +22,9 @@
 			<dt>Naam</dt>
 			<dd>${pizza.naam}</dd>
 			<dt>Prijs</dt>
-			<dd>${pizza.prijs}</dd>
+			<dd><spring:eval expression="pizza.prijs"></spring:eval></dd>
 			<dt>In dollar</dt>
-			<dd>${inDollar}</dd>
+			<dd><spring:eval expression="inDollar.waarde"></spring:eval></dd>
 			<dt>Pikant</dt>
 			<dd>${pizza.pikant ? 'ja' : 'nee'}</dd>
 		</dl>

@@ -7,12 +7,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.format.annotation.NumberFormat;
 
 public class Pizza {
 	private long id;
 	@NotBlank @SafeHtml
 	private String naam;
-	@NotNull @Min(0)
+	@NotNull @Min(0) @NumberFormat(pattern = "0.00")
 	private BigDecimal prijs;
 	private boolean pikant;
 	
